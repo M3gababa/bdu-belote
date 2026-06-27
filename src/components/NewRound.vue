@@ -268,6 +268,7 @@ function submit() {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  align-items: center;
 }
 
 .form-label {
@@ -276,6 +277,7 @@ function submit() {
   text-transform: uppercase;
   letter-spacing: 0.07em;
   color: var(--text-2);
+  text-align: center;
 }
 
 /* Chips */
@@ -283,6 +285,7 @@ function submit() {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  justify-content: center;
 }
 
 .chip {
@@ -340,6 +343,7 @@ function submit() {
   display: flex;
   align-items: center;
   gap: 6px;
+  width: 100%;
 }
 
 .score-input {
@@ -368,6 +372,7 @@ function submit() {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   overflow: hidden;
+  width: 100%;
 }
 
 .preview-team {
@@ -409,6 +414,7 @@ function submit() {
 .belote-row {
   display: flex;
   gap: 8px;
+  width: 100%;
 }
 
 .belote-btn {
@@ -449,6 +455,7 @@ function submit() {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   overflow: hidden;
+  width: 100%;
 }
 
 .final-label {

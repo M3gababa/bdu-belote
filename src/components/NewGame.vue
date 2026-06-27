@@ -191,12 +191,11 @@ function startGame() {
 
 .teams-grid {
   display: flex;
-  gap: 12px;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 0;
 }
 
 .team-column {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -204,13 +203,13 @@ function startGame() {
 
 .team-header {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 6px;
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
+  padding-bottom: 6px;
 }
 
 .team-header.red { color: var(--red); }
@@ -264,18 +263,16 @@ function startGame() {
 
 .team-divider {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 6px;
-  padding-top: 24px;
-  flex-shrink: 0;
+  gap: 10px;
+  padding: 16px 0;
 }
 
 .divider-line {
-  width: 1px;
   flex: 1;
+  height: 1px;
   background: var(--border);
-  min-height: 20px;
 }
 
 .divider-vs {
@@ -283,6 +280,7 @@ function startGame() {
   font-weight: 700;
   color: var(--text-3);
   letter-spacing: 0.1em;
+  flex-shrink: 0;
 }
 
 .start-btn {
