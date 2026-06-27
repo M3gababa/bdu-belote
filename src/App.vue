@@ -77,6 +77,10 @@ const tabs = [
   flex-direction: column;
   background: var(--bg);
   overflow: hidden;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 0 0 1px var(--border);
 }
 
 /* Header */

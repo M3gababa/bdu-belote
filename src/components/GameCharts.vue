@@ -61,7 +61,7 @@ const CHART_DEFAULTS = {
   maintainAspectRatio: false,
   plugins: {
     legend: {
-      labels: { color: '#888', font: { size: 11 }, boxWidth: 10 },
+      labels: { color: '#666', font: { size: 12 }, boxWidth: 12 },
     },
   },
 }
@@ -81,22 +81,24 @@ function buildLineData() {
       {
         label: team1Name.value,
         data: cumul.map(c => c.t1),
-        borderColor: '#e63946',
-        backgroundColor: 'rgba(230, 57, 70, 0.08)',
-        fill: true,
+        borderColor: '#d9313d',
+        backgroundColor: 'transparent',
+        fill: false,
         tension: 0.35,
         pointRadius: 3,
-        pointBackgroundColor: '#e63946',
+        pointBackgroundColor: '#d9313d',
+        borderWidth: 2,
       },
       {
         label: team2Name.value,
         data: cumul.map(c => c.t2),
-        borderColor: 'rgba(240,240,240,0.7)',
-        backgroundColor: 'rgba(240,240,240,0.04)',
-        fill: true,
+        borderColor: '#444444',
+        backgroundColor: 'transparent',
+        fill: false,
         tension: 0.35,
         pointRadius: 3,
-        pointBackgroundColor: 'rgba(240,240,240,0.7)',
+        pointBackgroundColor: '#444444',
+        borderWidth: 2,
       },
     ],
   }
@@ -112,19 +114,13 @@ function buildBarData() {
     if (r.taker in counts) counts[r.taker]++
   })
 
-  const isTeam1 = p => store.game?.players.team1.includes(p)
-
   return {
     labels: allPlayers,
     datasets: [{
       label: 'Prises',
       data: allPlayers.map(p => counts[p]),
-      backgroundColor: allPlayers.map(p =>
-        isTeam1(p) ? 'rgba(230, 57, 70, 0.7)' : 'rgba(240, 240, 240, 0.4)'
-      ),
-      borderColor: allPlayers.map(p =>
-        isTeam1(p) ? '#e63946' : 'rgba(240, 240, 240, 0.6)'
-      ),
+      backgroundColor: 'rgba(80, 80, 80, 0.65)',
+      borderColor: 'rgba(80, 80, 80, 0.9)',
       borderWidth: 1,
       borderRadius: 5,
     }],
@@ -139,12 +135,12 @@ function buildDoughnutData() {
 
   const entries = Object.entries(counts).filter(([, c]) => c > 0)
   const COLORS = {
-    '♥': 'rgba(230, 57, 70, 0.8)',
-    '♦': 'rgba(230, 57, 70, 0.5)',
-    '♣': 'rgba(180, 180, 180, 0.6)',
-    '♠': 'rgba(100, 100, 100, 0.8)',
-    'SA': 'rgba(201, 168, 76, 0.7)',
-    'TA': 'rgba(69, 123, 157, 0.7)',
+    '♥': 'rgba(217, 49, 61, 0.85)',
+    '♦': 'rgba(217, 49, 61, 0.45)',
+    '♣': 'rgba(60, 60, 60, 0.75)',
+    '♠': 'rgba(60, 60, 60, 0.45)',
+    'SA': 'rgba(154, 111, 0, 0.75)',
+    'TA': 'rgba(69, 123, 157, 0.75)',
   }
 
   return {
@@ -152,17 +148,17 @@ function buildDoughnutData() {
     datasets: [{
       data: entries.map(([, v]) => v),
       backgroundColor: entries.map(([k]) => COLORS[k] ?? 'rgba(100,100,100,0.5)'),
-      borderColor: '#1a1a1a',
+      borderColor: '#ffffff',
       borderWidth: 2,
       hoverOffset: 4,
     }],
   }
 }
 
-function scaleOpts(tickColor = '#555') {
+function scaleOpts() {
   return {
-    x: { ticks: { color: tickColor }, grid: { color: 'rgba(255,255,255,0.05)' } },
-    y: { ticks: { color: tickColor }, grid: { color: 'rgba(255,255,255,0.05)' } },
+    x: { ticks: { color: '#888' }, grid: { color: 'rgba(0,0,0,0.07)' } },
+    y: { ticks: { color: '#888' }, grid: { color: 'rgba(0,0,0,0.07)' } },
   }
 }
 
@@ -206,7 +202,7 @@ function initCharts() {
           ...CHART_DEFAULTS.plugins,
           legend: {
             position: 'right',
-            labels: { color: '#888', font: { size: 12 }, boxWidth: 12 },
+            labels: { color: '#444', font: { size: 16 }, boxWidth: 16, padding: 12 },
           },
         },
       },
