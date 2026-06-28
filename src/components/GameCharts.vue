@@ -6,6 +6,11 @@
     </div>
 
     <template v-else>
+      <!-- Scope toggle -->
+      <div class="scope-toggle">
+        <button :class="['scope-btn', { active: statsScope === 'current' }]" @click="statsScope = 'current'">Partie en cours</button>
+        <button :class="['scope-btn', { active: statsScope === 'all' }]" @click="statsScope = 'all'">Toutes les parties</button>
+      </div>
       <!-- Score progression -->
       <div class="chart-card">
         <h3 class="chart-title">Progression des scores</h3>
@@ -46,7 +51,10 @@ const lineRef = ref(null)
 const barRef = ref(null)
 const doughnutRef = ref(null)
 
-const rounds = computed(() => store.game?.rounds ?? [])
+const statsScope = ref('current')
+const rounds = computed(() =>
+  statsScope.value === 'all' ? store.allRounds : (store.game?.rounds ?? [])
+)
 
 const team1Name = computed(() => store.team1Name)
 const team2Name = computed(() => store.team2Name)
@@ -213,6 +221,7 @@ function initCharts() {
 onMounted(initCharts)
 
 watch(() => rounds.value.length, initCharts)
+watch(statsScope, initCharts)
 
 onUnmounted(() => {
   lineChart?.destroy()
@@ -273,5 +282,30 @@ onUnmounted(() => {
 
 .chart-wrap.short {
   height: 160px;
+}
+
+.scope-toggle {
+  display: flex;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  gap: 3px;
+}
+
+.scope-btn {
+  flex: 1;
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-2);
+  transition: all 0.15s;
+}
+
+.scope-btn.active {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 </style>

@@ -10,8 +10,12 @@
             <div class="team-score-big" :class="{ 'c-red': store.team1Total > store.team2Total }">{{ store.team1Total }}</div>
           </div>
           <div class="header-center">
-            <div class="header-vs">VS</div>
-            <div class="header-rounds">{{ store.game.rounds.length }} manches</div>
+            <div class="header-wins-row">
+              <span class="win-count" :class="{ 'c-red': store.team1GameWins > store.team2GameWins }">{{ store.team1GameWins }}</span>
+              <span class="header-vs">VS</span>
+              <span class="win-count" :class="{ 'c-red': store.team2GameWins > store.team1GameWins }">{{ store.team2GameWins }}</span>
+            </div>
+            <div class="header-rounds">Partie {{ store.currentPartyNumber }} · {{ store.game.rounds.length }} manches</div>
           </div>
           <div class="header-team" :class="{ leading: store.team2Total > store.team1Total }">
             <div class="team-label" :class="{ 'c-red': store.team2Total > store.team1Total }">{{ store.game.players.team2.join(' / ') }}</div>
@@ -24,6 +28,7 @@
         <ScoreBoard v-if="activeTab === 'scores'" />
         <GameHistory v-else-if="activeTab === 'history'" />
         <GameCharts v-else-if="activeTab === 'charts'" />
+        <GamesList v-else-if="activeTab === 'parties'" />
       </main>
 
       <nav class="bottom-nav">
@@ -38,13 +43,14 @@
         </button>
       </nav>
 
-      <button class="fab" @click="showNewRound = true" aria-label="Nouvelle manche">
+      <button v-if="!store.currentGameWinner" class="fab" @click="showNewRound = true" aria-label="Nouvelle manche">
         <span>+</span>
       </button>
     </template>
 
     <Teleport to="body">
       <NewRound v-if="showNewRound" @close="showNewRound = false" />
+      <WinModal v-if="store.currentGameWinner !== null" :winner="store.currentGameWinner" />
     </Teleport>
   </div>
 </template>
@@ -57,6 +63,8 @@ import NewRound from './components/NewRound.vue'
 import ScoreBoard from './components/ScoreBoard.vue'
 import GameHistory from './components/GameHistory.vue'
 import GameCharts from './components/GameCharts.vue'
+import GamesList from './components/GamesList.vue'
+import WinModal from './components/WinModal.vue'
 
 const store = useGameStore()
 const activeTab = ref('scores')
@@ -66,6 +74,7 @@ const tabs = [
   { id: 'scores', icon: '♠', label: 'Scores' },
   { id: 'history', icon: '♥', label: 'Manches' },
   { id: 'charts', icon: '♦', label: 'Stats' },
+  { id: 'parties', icon: '★', label: 'Parties' },
 ]
 </script>
 
@@ -147,8 +156,24 @@ const tabs = [
   flex-shrink: 0;
 }
 
+.header-wins-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.win-count {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-3);
+  min-width: 18px;
+  text-align: center;
+}
+
+.win-count.c-red { color: var(--red); }
+
 .header-vs {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--text-3);
   letter-spacing: 0.1em;
